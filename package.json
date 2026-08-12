@@ -1,0 +1,44 @@
+{
+  "name": ".well-known",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Auth0 Custom Extension that serves MCP OAuth protected-resource metadata.",
+  "main": "index.js",
+  "keywords": ["auth0", "extension", "mcp", "oauth"],
+  "author": "mustafadeel",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs && cd dist && zip -q package.zip index.js extension.js package.json",
+    "validate": "node scripts/validate-manifest.mjs"
+  },
+  "repository": "https://github.com/mustafadeel/auth0-ext-wellknown",
+  "license": "MIT",
+  "auth0-extension": {
+    "title": "Auth0 MCP OAuth Discovery",
+    "useHashName": false,
+    "type": "application",
+    "category": "end_user",
+    "initialUrlPath": "/",
+    "auth0": {
+      "createClient": false
+    },
+    "secrets": {
+      "MCP_RESOURCE_URL": {
+        "description": "Public MCP endpoint for which this extension serves OAuth metadata, for example https://tenant.region.webtask.run/auth0-forms-mcp/mcp.",
+        "required": true
+      },
+      "AUTH0_TENANT_ORIGIN": {
+        "description": "Canonical Auth0 tenant issuer, for example https://tenant.us.auth0.com.",
+        "required": true
+      },
+      "RESOURCE_NAME": {
+        "description": "Optional friendly name returned in protected-resource metadata.",
+        "example": "Auth0 Forms MCP",
+        "required": false
+      }
+    }
+  }
+}
