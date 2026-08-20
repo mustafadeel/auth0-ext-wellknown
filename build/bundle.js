@@ -24,9 +24,9 @@ function normalizeIssuer(value) {
   return value.replace(/\/$/, "") + "/";
 }
 
-function metadataPath(resourceUrl) {
+function metadataPaths(resourceUrl) {
   var resource = new URL(resourceUrl);
-  return "/.well-known/oauth-protected-resource" + resource.pathname;
+  return ["/oauth-protected-resource" + resource.pathname, "/oauth-protected-resource"];
 }
 
 function requestPath(req) {
@@ -52,14 +52,14 @@ module.exports = Webtask.fromConnect(function handler(req, res) {
     });
   }
 
-  var expectedPath;
+  var expectedPaths;
   try {
-    expectedPath = metadataPath(resourceUrl);
+    expectedPaths = metadataPaths(resourceUrl);
   } catch (error) {
     return sendJson(res, 500, { error: "configuration_error", message: "MCP_RESOURCE_URL must be an absolute URL." });
   }
 
-  if (req.method === "GET" && requestPath(req) === expectedPath) {
+  if (req.method === "GET" && expectedPaths.indexOf(requestPath(req)) !== -1) {
     return sendJson(res, 200, {
       resource: resourceUrl,
       authorization_servers: [normalizeIssuer(tenantOrigin)],
@@ -67,7 +67,7 @@ module.exports = Webtask.fromConnect(function handler(req, res) {
     });
   }
 
-  if (req.method === "GET" && (requestPath(req) === "/" || requestPath(req) === "/.well-known")) {
+  if (req.method === "GET" && requestPath(req) === "/") {
     res.statusCode = 200;
     res.setHeader("content-type", "text/plain; charset=utf-8");
     return res.end("Auth0 MCP OAuth discovery extension");

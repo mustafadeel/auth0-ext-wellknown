@@ -12,7 +12,8 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs && cd dist && zip -q package.zip index.js extension.js package.json",
-    "validate": "node scripts/validate-manifest.mjs"
+    "validate": "node scripts/validate-manifest.mjs",
+    "test": "npm run validate && npm run build && node scripts/smoke.mjs"
   },
   "repository": "https://github.com/mustafadeel/auth0-ext-wellknown",
   "license": "MIT",
