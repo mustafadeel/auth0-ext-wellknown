@@ -1,5 +1,7 @@
 "use strict";
 
+var Webtask = require("webtask-tools");
+
 function readSetting(context, key) {
   var sources = [context && context.data, context && context.secrets, context];
   for (var index = 0; index < sources.length; index += 1) {
@@ -31,7 +33,8 @@ function requestPath(req) {
   return (req.url || "/").split("?", 1)[0];
 }
 
-module.exports = function handler(context, req, res) {
+module.exports = Webtask.fromConnect(function handler(req, res) {
+  var context = req.webtaskContext;
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
     res.setHeader("access-control-allow-headers", "authorization, content-type");
@@ -71,4 +74,4 @@ module.exports = function handler(context, req, res) {
   }
 
   return sendJson(res, 404, { error: "not_found" });
-};
+});

@@ -16,6 +16,9 @@
   },
   "repository": "https://github.com/mustafadeel/auth0-ext-wellknown",
   "license": "MIT",
+  "dependencies": {
+    "webtask-tools": "^3.5.0"
+  },
   "auth0-extension": {
     "title": "Auth0 MCP OAuth Discovery",
     "useHashName": false,
