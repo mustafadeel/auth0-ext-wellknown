@@ -1,7 +1,7 @@
 {
   "title": "Auth0 MCP OAuth Discovery",
   "name": ".well-known",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "mustafadeel",
   "repository": "https://github.com/mustafadeel/auth0-ext-wellknown",
   "keywords": ["auth0", "extension", "mcp", "oauth"],
@@ -13,5 +13,11 @@
   "initialUrlPath": "/",
   "auth0": {
     "createClient": false
+  },
+  "secrets": {
+    "SUPPORTED_SCOPES": {
+      "description": "Space-delimited OAuth scopes supported by the protected MCP resource, for example read:destinations bookings:write.",
+      "required": true
+    }
   }
 }

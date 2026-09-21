@@ -70,6 +70,13 @@ function tenantIssuer(context) {
   return "https://" + toAuth0Domain(domain) + "/";
 }
 
+function supportedScopes(context) {
+  var configuredScopes = readSetting(context, "SUPPORTED_SCOPES");
+  if (!configuredScopes) return [];
+
+  return Array.from(new Set(configuredScopes.split(/\s+/).filter(Boolean)));
+}
+
 module.exports = Webtask.fromConnect(function handler(req, res) {
   var context = req.webtaskContext;
 
@@ -135,6 +142,7 @@ module.exports = Webtask.fromConnect(function handler(req, res) {
       resource: origin + resourcePath,
       authorization_servers: [tenantOrigin],
       resource_name: "Auth0 MCP",
+      scopes_supported: supportedScopes(context),
     });
   }
 

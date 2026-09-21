@@ -1,6 +1,6 @@
 {
   "name": ".well-known",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Auth0 Custom Extension that serves MCP OAuth protected-resource and authorization-server metadata.",
   "main": "index.js",
   "keywords": [
@@ -23,6 +23,12 @@
     "initialUrlPath": "/",
     "auth0": {
       "createClient": false
+    },
+    "secrets": {
+      "SUPPORTED_SCOPES": {
+        "description": "Space-delimited OAuth scopes supported by the protected MCP resource, for example read:destinations bookings:write.",
+        "required": true
+      }
     }
   }
 }

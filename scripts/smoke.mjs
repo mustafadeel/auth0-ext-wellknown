@@ -24,7 +24,10 @@ if (typeof handler !== "function") {
 }
 
 const context = {
-  data: { AUTH0_DOMAIN: "tenant.us.auth0.com" },
+  data: {
+    AUTH0_DOMAIN: "tenant.us.auth0.com",
+    SUPPORTED_SCOPES: "read:account read:account bookings:write",
+  },
   secrets: {},
 };
 
@@ -66,6 +69,9 @@ try {
   }
   if (suffixedBody.authorization_servers[0] !== "https://tenant.us.auth0.com/") {
     throw new Error(`Unexpected authorization_servers: ${suffixed.body}`);
+  }
+  if (JSON.stringify(suffixedBody.scopes_supported) !== JSON.stringify(["read:account", "bookings:write"])) {
+    throw new Error(`Unexpected scopes_supported: ${suffixed.body}`);
   }
   if (bare.status !== 404) {
     throw new Error(`Expected the bare (unsuffixed) resource path to 404, received ${bare.status}`);
